@@ -200,17 +200,39 @@
   .top b{ font-family:var(--display); font-size:1.0625rem; font-weight:600; }
   /* Rien dans la barre ne se casse en deux lignes : un retour à la
      ligne doublerait sa hauteur et décalerait tout le hero. */
-  .top > span, .top-meta{ white-space:nowrap; }
+  .top > span{ white-space:nowrap; }
 
-  /* La ligne se cale au milieu de la BARRE, et non au milieu de
-     l'espace libre entre le nom et les boutons : dans un flux flex
-     elle glisserait vers la gauche, le groupe de droite étant deux
-     fois plus large que le nom. Hors du flux, son centre est celui
-     de la barre quoi qu'il arrive à ses voisins.                   */
-  .top-meta{
-    position:absolute; left:50%; top:50%;
-    transform:translate(-50%, -50%);
+  /* ── NAVIGATION DE LA BARRE ────────────────────────────
+     Les six sections de la page, en clair, à côté du nom du club.
+     Elle occupe la place que tenait la ligne « École Centrale
+     Casablanca · 2026–2027 » : la barre ne peut pas porter les deux
+     sans casser une ligne, et un lien vaut mieux qu'une mention que
+     le hero et le pied de page répètent déjà.
+
+     En dessous de 68rem la place manque : elle se retire, et c'est
+     le menu déroulant à droite qui reprend les mêmes entrées (voir
+     .nav-only plus bas). La page n'est donc jamais sans navigation. */
+  .nav{ display:none; }
+  @media (min-width:68rem){
+    .nav{ display:flex; align-items:center; gap:1.15rem; margin-left:0.75rem; }
   }
+  .nav a{
+    position:relative; text-decoration:none; white-space:nowrap;
+    font-family:var(--display); font-size:0.9375rem; font-weight:600;
+    letter-spacing:0.01em; padding:0.1rem 0;
+    transition:color .14s ease;
+  }
+  /* Le filet pousse depuis la gauche au survol et reste plein sur la
+     section où l'on se trouve : même trait de 2px que les sections,
+     et la même information que la jauge, mais nommée.            */
+  .nav a::after{
+    content:""; position:absolute; left:0; right:0; bottom:-0.2rem; height:2px;
+    background:currentColor; transform:scaleX(0); transform-origin:left;
+    transition:transform .18s ease;
+  }
+  .nav a:hover::after, .nav a:focus-visible::after{ transform:scaleX(1); }
+  .nav a[aria-current]{ color:var(--violet); }
+  .nav a[aria-current]::after{ transform:scaleX(1); }
 
   /* Au défilement la barre se resserre et se densifie : le mouvement
      répond à une action du visiteur, il ne décore pas.             */
@@ -329,20 +351,31 @@
   }
 
   /* people */
+  /* Une grille en auto-fill rangeait les portraits à gauche et
+     laissait les colonnes vides à droite : à trois membres sur neuf
+     places, un pôle paraissait de travers. En flex, chaque ligne —
+     la dernière comprise — se centre sur l'axe de la page.      */
   .people{
-    list-style:none; margin:2.25rem 0 0; padding:0; display:grid; gap:1.75rem 1rem;
-    grid-template-columns:repeat(auto-fill,minmax(7.5rem,1fr));
+    list-style:none; margin:2.25rem auto 0; padding:0; max-width:62rem;
+    display:flex; flex-wrap:wrap; justify-content:center; gap:1.75rem 1.25rem;
   }
-  .person{ text-align:center; }
-  /* Vignettes carrées : même géométrie que les motifs des pôles et
-     que le damier du hero. Aucun arrondi nulle part sur la page.  */
+  .person{ text-align:center; flex:0 1 8.5rem; }
+  /* Vignettes rondes : c'est la seule courbe de la page, et elle est
+     là pour le portrait — un visage cadré rond se lit mieux qu'un
+     visage coupé aux angles. Aucun cadre autour des responsables :
+     le rôle est écrit en toutes lettres sous la photo.          */
   .ph{
     margin:0 auto 0.7rem; width:100%; max-width:7rem; aspect-ratio:1;
-    overflow:hidden; background:currentColor;
+    border-radius:50%; overflow:hidden; background:currentColor;
     display:grid; place-items:center; position:relative;
   }
-  .person.is-lead .ph{ box-shadow:0 0 0 3px var(--bg), 0 0 0 6px currentColor; }
-  .ph img{ width:100%; height:100%; object-fit:cover; display:block; }
+  /* La photo se pose PAR-DESSUS l'initiale plutôt qu'à côté : si un
+     fichier manque, la pastille colorée et sa lettre reparaissent
+     d'elles-mêmes, sans trou dans la grille.                     */
+  .ph img{
+    position:absolute; inset:0;
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
   .ph span{
     font-family:var(--display); font-size:1.875rem; font-weight:600;
     line-height:1;
@@ -473,6 +506,21 @@
   /* Dernière entrée : elle ne mène pas à un pôle, d'où le filet. */
   .jump-menu .all{ border-top:2px solid rgba(var(--fg-rgb), .18); margin-top:0.35rem; padding-top:0.35rem; }
 
+  /* Intertitre : le panneau porte deux listes de nature différente
+     (des pôles, puis des sections), il faut les nommer.          */
+  .jump-menu .group{
+    font-family:var(--display); font-size:0.625rem; font-weight:600;
+    letter-spacing:0.14em; text-transform:uppercase; opacity:.55;
+    padding:0.3rem 0.6rem 0.35rem;
+  }
+  .jump-menu .group.rule{
+    border-top:2px solid rgba(var(--fg-rgb), .18);
+    margin-top:0.35rem; padding-top:0.6rem;
+  }
+  /* Au-dessus de 68rem la barre affiche déjà ces liens en clair :
+     les répéter dans le panneau ne ferait que l'allonger.        */
+  @media (min-width:68rem){ .jump-menu .nav-only{ display:none; } }
+
   @media (max-width:32rem){
     /* Moins de rembourrage : sinon la plaque vole au titre la largeur
        dont il a besoin et "THE NEW ROAD" se casse en deux lignes. */
@@ -518,13 +566,6 @@
      thème : elle est plus basse, donc elle réserve moins de place. */
   /* La ligne École Centrale part tôt : à trois éléments à gauche, la
      barre devient à l'étroit bien avant la largeur téléphone. */
-  /* Une ligne centrée réclame autant de place à sa gauche qu'à sa
-     droite : elle doit donc partir plus tôt qu'un simple élément
-     posé à droite, sinon elle irait buter dans les contacts.
-     En dessous de 58rem le compte n'y est plus, elle se retire.   */
-  @media (max-width:58rem){
-    .top-meta{ display:none; }
-  }
   @media (max-width:48rem){
     /* Les contacts se resserrent pour tenir à côté du bouton Pôles
        sans que la barre déborde.                                   */
@@ -565,6 +606,9 @@
     list-style:none; margin:2.75rem 0 0; padding:0; display:grid; gap:1.25rem;
     grid-template-columns:repeat(auto-fit,minmax(16.5rem,1fr));
   }
+  /* Six atouts : trois par ligne, deux lignes pleines. En auto-fit
+     ils partaient à quatre puis deux, et la seconde ligne pendait. */
+  @media (min-width:52rem){ .cards-3{ grid-template-columns:repeat(3,1fr); } }
   .card{
     border:2px solid var(--fg); padding:1.75rem 1.4rem; text-align:center;
     display:flex; flex-direction:column; align-items:center;
@@ -652,8 +696,40 @@
     font-family:var(--display); font-size:0.6875rem; font-weight:600;
     letter-spacing:0.14em; text-transform:uppercase; margin:0 0 0.6rem; opacity:.65;
   }
-  .more-panel .tags{ justify-content:flex-start; margin-bottom:1.6rem; }
-  .cta-sm{ margin-top:0; padding:0.7rem 1.5rem; font-size:0.9375rem; }
+  .more-panel .tags{ justify-content:flex-start; }
+
+  /* ── QUESTIONS FRÉQUENTES ─────────────────────────────
+     Une pile de filets plutôt que cinq cartes : une question tient
+     sur une ligne, elle n'a pas besoin d'une boîte à elle. Les
+     réponses s'ouvrent une par une, comme les descriptifs de pôle. */
+  .faq{
+    list-style:none; margin:2.75rem auto 0; padding:0;
+    max-width:52rem; text-align:left; border-top:2px solid var(--fg);
+  }
+  .faq > li{ border-bottom:2px solid var(--fg); }
+  .faq-q{
+    appearance:none; -webkit-appearance:none;
+    display:flex; align-items:center; justify-content:space-between; gap:1.25rem;
+    width:100%; background:none; border:0; color:inherit; text-align:left;
+    padding:1.15rem 0.25rem; cursor:pointer;
+    font-family:var(--display); font-size:1rem; font-weight:600; line-height:1.35;
+    transition:color .14s ease;
+  }
+  .faq-q:hover{ color:var(--violet); }
+  /* Le signe : deux filets de 2px croisés. La barre verticale pivote
+     sur l'horizontale à l'ouverture — le plus devient un moins. Rien
+     à traduire, et le trait est celui de toute la page.          */
+  .faq-q i{ position:relative; flex:none; width:0.85rem; height:0.85rem; }
+  .faq-q i::before, .faq-q i::after{
+    content:""; position:absolute; left:0; right:0; top:50%;
+    height:2px; margin-top:-1px; background:currentColor;
+  }
+  .faq-q i::after{ transform:rotate(90deg); transition:transform .2s ease; }
+  .faq-q[aria-expanded="true"] i::after{ transform:rotate(0deg); }
+  .faq-a{ padding:0 0.25rem 1.4rem; max-width:62ch; }
+  .faq-a[hidden]{ display:none; }
+  .faq-a p{ margin:0 0 0.7rem; font-size:0.9375rem; line-height:1.6; }
+  .faq-a p:last-child{ margin:0; }
 
   /* ── CAMPAGNE DE RECRUTEMENT ─────────────────────────
      L'ancienne clôture, étoffée : le bandeau d'appel de la brochure
@@ -744,14 +820,23 @@
 <header class="top" id="top">
   <span><b>Centrale Tech</b></span>
 
-  <!-- Centrée sur la barre elle-même, pas entre les deux groupes :
-       elle est donc sortie du flux (voir .top-meta dans la feuille). -->
-  <span class="top-meta">École Centrale Casablanca · 2026–2027</span>
+  <!-- NAVIGATION — une entrée par section de la page, dans l'ordre du
+       document : le souligné de section courante suit cette liste.
+       En dessous de 68rem elle disparaît et le menu prend le relais. -->
+  <nav class="nav" aria-label="Sections de la page">
+    <a href="#bureau">Bureau</a>
+    <a href="#equipe">Équipe</a>
+    <a href="#poles">Pôles</a>
+    <a href="#pourquoi">Pourquoi</a>
+    <a href="#rendez-vous">Rendez-vous</a>
+    <a href="#faq">FAQ</a>
+    <a href="#rejoindre">Candidater</a>
+  </nav>
 
   <div class="top-right">
     <button type="button" class="jump-btn" id="jump-btn"
             aria-expanded="false" aria-controls="jump-menu">
-      Pôles
+      Menu
       <svg viewBox="0 0 12 12" aria-hidden="true">
         <path d="M1.5 4 L6 8.5 L10.5 4" fill="none" stroke="currentColor"
               stroke-width="2" stroke-linecap="square"/>
@@ -805,6 +890,8 @@
 
   <!-- Chaque pastille reprend le motif du pôle, en réduction. -->
   <ul class="jump-menu" id="jump-menu" hidden>
+    <li class="group">Nos pôles</li>
+
     <li><a href="#pole-design-web">
       <span class="chip tone-emerald"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><g fill="none" stroke="var(--bg)" stroke-width="7"><path d="M100 22 A78 78 0 0 0 22 100"/><path d="M100 52 A48 48 0 0 0 52 100"/><path d="M100 80 A20 20 0 0 0 80 100"/></g></svg></span>
       Design &amp; Développement Web</a></li>
@@ -821,7 +908,14 @@
       <span class="chip tone-violet"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><path d="M0 100 L100 0 V100 Z" fill="var(--bg)"/></svg></span>
       Robotique</a></li>
 
-    <li class="all"><a href="#poles">Voir les quatre pôles</a></li>
+    <li class="group rule nav-only">La page</li>
+    <li class="nav-only"><a href="#bureau">Le Bureau</a></li>
+    <li class="nav-only"><a href="#equipe">Équipe dirigeante</a></li>
+    <li class="nav-only"><a href="#poles">Les quatre pôles</a></li>
+    <li class="nav-only"><a href="#pourquoi">Pourquoi nous rejoindre</a></li>
+    <li class="nav-only"><a href="#rendez-vous">Les grands rendez-vous</a></li>
+    <li class="nav-only"><a href="#faq">Questions fréquentes</a></li>
+
     <li class="all"><a href="#rejoindre">Candidater</a></li>
   </ul>
 
@@ -867,27 +961,27 @@
     <p>L'équipe dirigeante du club pour l'année 2026–2027.</p>
       <ul class="people">
         <li class="person is-lead">
-          <figure class="ph tone-ink"><!-- photos/anwar-mounir.jpg --><span>A</span></figure>
+          <figure class="ph tone-ink"><img src="assets/images/members%20photos/Anwar%20MOUNIR.png" alt="" loading="lazy" decoding="async"><span>A</span></figure>
           <h4>Anwar MOUNIR</h4><p>Président</p>
         </li>
         <li class="person">
-          <figure class="ph tone-ink"><!-- photos/yahya-el-omari.jpg --><span>Y</span></figure>
+          <figure class="ph tone-ink"><img src="assets/images/members%20photos/Yahya%20EL%20OMARI%20.png" alt="" loading="lazy" decoding="async"><span>Y</span></figure>
           <h4>Yahya EL OMARI</h4><p>Vice-Président</p>
         </li>
         <li class="person">
-          <figure class="ph tone-ink"><!-- photos/aya-khabir.jpg --><span>A</span></figure>
+          <figure class="ph tone-ink"><img src="assets/images/members%20photos/Aya%20KHABIR%20.png" alt="" loading="lazy" decoding="async"><span>A</span></figure>
           <h4>Aya KHABIR</h4><p>Chargée de Coordination des Pôles</p>
         </li>
         <li class="person">
-          <figure class="ph tone-ink"><!-- photos/tawba-benzayed.jpg --><span>T</span></figure>
+          <figure class="ph tone-ink"><img src="assets/images/members%20photos/Tawba%20BENZAYED.png" alt="" loading="lazy" decoding="async"><span>T</span></figure>
           <h4>Tawba BENZAYED</h4><p>Trésorier</p>
         </li>
         <li class="person">
-          <figure class="ph tone-ink"><!-- photos/ouajif-omar.jpg --><span>O</span></figure>
+          <figure class="ph tone-ink"><img src="assets/images/members%20photos/Ouajif%20OMAR.png" alt="" loading="lazy" decoding="async"><span>O</span></figure>
           <h4>Ouajif OMAR</h4><p>Secrétaire Général — Rédaction & Archivage</p>
         </li>
         <li class="person">
-          <figure class="ph tone-ink"><!-- photos/daniela-zoungrana.jpg --><span>D</span></figure>
+          <figure class="ph tone-ink"><img src="assets/images/members%20photos/Daniela%20ZOUNGRANA%20%282%29.png" alt="" loading="lazy" decoding="async"><span>D</span></figure>
           <h4>Daniela ZOUNGRANA</h4><p>Secrétaire Générale — Administratif & Relations École</p>
         </li>
       </ul>
@@ -967,22 +1061,20 @@
 
             <p class="stack-title">Stack technique du pôle</p>
             <ul class="tags"><li>TypeScript</li><li>React</li><li>Next.js</li><li>Node.js</li><li>WebSockets</li><li>TailwindCSS</li><li>Git &amp; GitHub</li><li>Figma</li></ul>
-
-            <a class="cta cta-sm" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=eF-Del-2XEmV2BIjjDk9eiSMIvigBCxFiZrnXrNQQRRUOVRHVVczU0ZSNFU5RkdISkM4Szc0VDZQSy4u" target="_blank" rel="noopener">Postuler en Dev Web</a>
           </div>
         </div>
       </div>
       <ul class="people">
         <li class="person is-lead">
-          <figure class="ph tone-emerald"><!-- photos/aymen-laouina.jpg --><span>A</span></figure>
+          <figure class="ph tone-emerald"><img src="assets/images/members%20photos/Aymen%20LAOUINA.png" alt="" loading="lazy" decoding="async"><span>A</span></figure>
           <h4>Aymen LAOUINA</h4><p>Lead</p>
         </li>
         <li class="person is-lead">
-          <figure class="ph tone-emerald"><!-- photos/zhour-meskour.jpg --><span>Z</span></figure>
+          <figure class="ph tone-emerald"><img src="assets/images/members%20photos/Zhour%20MeSKOUR.png" alt="" loading="lazy" decoding="async"><span>Z</span></figure>
           <h4>Zhour MESKOUR</h4><p>Co-Lead</p>
         </li>
         <li class="person">
-          <figure class="ph tone-emerald"><!-- photos/cheikh-ahmed-tidiane-sarr-ndiaye.jpg --><span>C</span></figure>
+          <figure class="ph tone-emerald"><img src="assets/images/members%20photos/Cheikh%20Ahmed%20Tidiane%20Sarr%20NDIAYE.png" alt="" loading="lazy" decoding="async"><span>C</span></figure>
           <h4>Cheikh Ahmed Tidiane Sarr NDIAYE</h4><p>Contributeur Projet</p>
         </li>
       </ul>
@@ -1016,30 +1108,28 @@
 
             <p class="stack-title">Stack technique du pôle</p>
             <ul class="tags"><li>Python</li><li>PyTorch</li><li>TensorFlow</li><li>Scikit-Learn</li><li>LangChain</li><li>Pandas / NumPy</li><li>Hugging Face</li><li>Vector DBs</li></ul>
-
-            <a class="cta cta-sm" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=eF-Del-2XEmV2BIjjDk9eiSMIvigBCxFiZrnXrNQQRRUOVRHVVczU0ZSNFU5RkdISkM4Szc0VDZQSy4u" target="_blank" rel="noopener">Postuler en Data &amp; IA</a>
           </div>
         </div>
       </div>
       <ul class="people">
         <li class="person is-lead">
-          <figure class="ph tone-amber"><!-- photos/mouad-el-khaili.jpg --><span>M</span></figure>
+          <figure class="ph tone-amber"><img src="assets/images/members%20photos/Mouad%20EL%20KHAILI%20.png" alt="" loading="lazy" decoding="async"><span>M</span></figure>
           <h4>Mouad EL KHAILI</h4><p>Lead</p>
         </li>
         <li class="person is-lead">
-          <figure class="ph tone-amber"><!-- photos/allaoui-mohamed-el-mehdi.jpg --><span>A</span></figure>
+          <figure class="ph tone-amber"><img src="assets/images/members%20photos/Allaoui%20Mohamed%20El%20MEHDI.png" alt="" loading="lazy" decoding="async"><span>A</span></figure>
           <h4>Allaoui Mohamed EL MEHDI</h4><p>Co-Lead</p>
         </li>
         <li class="person">
-          <figure class="ph tone-amber"><!-- photos/mame-lesse-faye.jpg --><span>M</span></figure>
+          <figure class="ph tone-amber"><img src="assets/images/members%20photos/Mame%20Lesse%20FAYE.png" alt="" loading="lazy" decoding="async"><span>M</span></figure>
           <h4>Mame Lesse FAYE</h4><p>Contributeur Principal</p>
         </li>
         <li class="person">
-          <figure class="ph tone-amber"><!-- photos/hadri-ahmed-amine.jpg --><span>H</span></figure>
+          <figure class="ph tone-amber"><img src="assets/images/members%20photos/Hadri%20Ahmed%20AMINE.png" alt="" loading="lazy" decoding="async"><span>H</span></figure>
           <h4>Hadri Ahmed AMINE</h4><p>Contributeur</p>
         </li>
         <li class="person">
-          <figure class="ph tone-amber"><!-- photos/sennah-hamza.jpg --><span>S</span></figure>
+          <figure class="ph tone-amber"><img src="assets/images/members%20photos/Sennah%20HAMZA.png" alt="" loading="lazy" decoding="async"><span>S</span></figure>
           <h4>Sennah HAMZA</h4><p>Contributeur</p>
         </li>
       </ul>
@@ -1074,26 +1164,24 @@
 
             <p class="stack-title">Stack technique du pôle</p>
             <ul class="tags"><li>Kali Linux</li><li>Wireshark</li><li>Burp Suite</li><li>Metasploit</li><li>Ghidra</li><li>Docker</li><li>Python Security</li><li>Linux Hardening</li></ul>
-
-            <a class="cta cta-sm" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=eF-Del-2XEmV2BIjjDk9eiSMIvigBCxFiZrnXrNQQRRUOVRHVVczU0ZSNFU5RkdISkM4Szc0VDZQSy4u" target="_blank" rel="noopener">Postuler en Cybersécurité</a>
           </div>
         </div>
       </div>
       <ul class="people">
         <li class="person is-lead">
-          <figure class="ph tone-ink"><!-- photos/elise-coulibaly.jpg --><span>E</span></figure>
+          <figure class="ph tone-ink"><img src="assets/images/members%20photos/Elise%20COULIBALY%20.png" alt="" loading="lazy" decoding="async"><span>E</span></figure>
           <h4>Elise COULIBALY</h4><p>Lead</p>
         </li>
         <li class="person is-lead">
-          <figure class="ph tone-ink"><!-- photos/imad-zouhair.jpg --><span>I</span></figure>
+          <figure class="ph tone-ink"><img src="assets/images/members%20photos/Imad%20ZOUHAIR.png" alt="" loading="lazy" decoding="async"><span>I</span></figure>
           <h4>Imad ZOUHAIR</h4><p>Co-Lead</p>
         </li>
         <li class="person">
-          <figure class="ph tone-ink"><!-- photos/yeints-andi-aboulaziz-lankouand.jpg --><span>Y</span></figure>
+          <figure class="ph tone-ink"><img src="assets/images/members%20photos/Yeints%20Andi%20Aboulaziz%20LANKOUAND.png" alt="" loading="lazy" decoding="async"><span>Y</span></figure>
           <h4>Yeints Andi Aboulaziz LANKOUAND</h4><p>Contributeur</p>
         </li>
         <li class="person">
-          <figure class="ph tone-ink"><!-- photos/ivan-emmanuel-rabe-maleu.jpg --><span>I</span></figure>
+          <figure class="ph tone-ink"><img src="assets/images/members%20photos/Ivan%20Emmanuel%20Rabe%20MALEU%20.png" alt="" loading="lazy" decoding="async"><span>I</span></figure>
           <h4>Ivan Emmanuel Rabe MALEU</h4><p>Contributeur</p>
         </li>
       </ul>
@@ -1126,18 +1214,16 @@
 
             <p class="stack-title">Stack technique du pôle</p>
             <ul class="tags"><li>ROS 2</li><li>C / C++</li><li>Python</li><li>KiCAD (PCB)</li><li>SolidWorks</li><li>Fusion 360</li><li>STM32 / Arduino</li><li>Filtres de Kalman</li></ul>
-
-            <a class="cta cta-sm" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=eF-Del-2XEmV2BIjjDk9eiSMIvigBCxFiZrnXrNQQRRUOVRHVVczU0ZSNFU5RkdISkM4Szc0VDZQSy4u" target="_blank" rel="noopener">Postuler en Robotique</a>
           </div>
         </div>
       </div>
       <ul class="people">
         <li class="person is-lead">
-          <figure class="ph tone-violet"><!-- photos/tiemtore-ahmad-moubarak.jpg --><span>T</span></figure>
+          <figure class="ph tone-violet"><img src="assets/images/members%20photos/Tiemtore%20Ahmad%20MOUBARAK.png" alt="" loading="lazy" decoding="async"><span>T</span></figure>
           <h4>Tiemtore Ahmad MOUBARAK</h4><p>Lead</p>
         </li>
         <li class="person is-lead">
-          <figure class="ph tone-violet"><!-- photos/yahya-barhoun.jpg --><span>Y</span></figure>
+          <figure class="ph tone-violet"><img src="assets/images/members%20photos/Yahya%20BARHOUN%20.png" alt="" loading="lazy" decoding="async"><span>Y</span></figure>
           <h4>Yahya BARHOUN</h4><p>Co-Lead</p>
         </li>
       </ul>
@@ -1151,7 +1237,7 @@
     <h2>Pourquoi nous rejoindre&nbsp;?</h2>
     <p>Intégrer Centrale Tech, ce n'est pas simplement rejoindre un club étudiant : c'est un accélérateur de carrière technique, de leadership et d'ingénierie appliquée.</p>
 
-    <ul class="cards">
+    <ul class="cards cards-3">
       <li class="card">
         <div class="motif tone-violet"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><g fill="var(--bg)"><circle cx="25" cy="25" r="9"/><circle cx="50" cy="25" r="9"/><circle cx="75" cy="25" r="9"/><circle cx="25" cy="50" r="9"/><circle cx="50" cy="50" r="9"/><circle cx="75" cy="50" r="9"/><circle cx="25" cy="75" r="9"/><circle cx="50" cy="75" r="9"/><circle cx="75" cy="75" r="9"/></g></svg></div>
         <h3>Programme de mentorat 1-to-1</h3>
@@ -1215,6 +1301,65 @@
         <span class="when">Avril — Mai</span>
         <h3>Le grand TechDay ECC</h3>
         <p>Événement phare de l'école : plus de 200 participants, sponsors industriels, compétitions de robots sur pistes dédiées et démonstrations IA.</p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- QUESTIONS FRÉQUENTES — reprises de la brochure. Même motif
+       « disclosure » que les descriptifs de pôle : un bouton, un
+       panneau, l'état porté par aria-expanded. -->
+  <section class="lead-in" id="faq">
+    <span class="kicker">// Questions fréquentes</span>
+    <h2>Tout ce qu’il faut savoir pour postuler</h2>
+    <p>Vous hésitez encore ? Voici les réponses aux questions les plus courantes des futurs candidats.</p>
+
+    <ul class="faq">
+      <li>
+        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-1">
+          <span>Dois-je déjà être un expert technique pour postuler ?</span>
+          <i aria-hidden="true"></i>
+        </button>
+        <div class="faq-a" id="faq-1" hidden>
+        <p><b>Absolument pas.</b> Nous accordons une importance capitale à la curiosité, à l’envie d’apprendre et à la rigueur de travail. Nos cycles de formation (bootcamps) et notre mentorat 1-to-1 sont spécialement conçus pour former les élèves-ingénieurs de première année dès leur intégration.</p>
+        </div>
+      </li>
+      <li>
+        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-2">
+          <span>Puis-je postuler à plusieurs pôles ?</span>
+          <i aria-hidden="true"></i>
+        </button>
+        <div class="faq-a" id="faq-2" hidden>
+        <p>Oui. Le formulaire officiel vous permet de classer les pôles par ordre de préférence, du premier au quatrième choix. Lors des entretiens, le jury évalue votre affinité technique pour vous placer là où vous pourrez vous épanouir au maximum.</p>
+        </div>
+      </li>
+      <li>
+        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-3">
+          <span>Comment se déroule le processus de recrutement ?</span>
+          <i aria-hidden="true"></i>
+        </button>
+        <div class="faq-a" id="faq-3" hidden>
+        <p>Le processus tient en deux étapes :</p>
+        <p><b>1. Le formulaire de candidature</b> — vos informations et vos motivations.</p>
+        <p><b>2. L’entretien de quinze minutes</b> — une courte entrevue structurée avec le bureau et les leads du pôle, sur vos motivations, votre esprit d’équipe et votre disponibilité.</p>
+        </div>
+      </li>
+      <li>
+        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-4">
+          <span>Combien d’heures par semaine dois-je consacrer au club ?</span>
+          <i aria-hidden="true"></i>
+        </button>
+        <div class="faq-a" id="faq-4" hidden>
+        <p>En moyenne, nous recommandons <b>trois à cinq heures par semaine</b> : ateliers, projets et réunions de synchronisation. Nous savons que les études à l’ECC sont exigeantes, et les mentors veillent à ce que votre engagement reste compatible avec votre réussite académique.</p>
+        </div>
+      </li>
+      <li>
+        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-5">
+          <span>Quand les candidatures sont-elles ouvertes ?</span>
+          <i aria-hidden="true"></i>
+        </button>
+        <div class="faq-a" id="faq-5" hidden>
+        <p>Les inscriptions ouvrent immédiatement après la présentation officielle des clubs à l’école. Le formulaire est déjà en ligne : en le remplissant dès maintenant, vous figurez sur la liste prioritaire.</p>
+        </div>
       </li>
     </ul>
   </section>
@@ -1286,7 +1431,7 @@
 
     <div class="foot-bottom">
       <span>© 2026–2027 Centrale Tech — École Centrale Casablanca. Tous droits réservés.</span>
-      <span>Made by <a href="https://www.linkedin.com/in/aymen-laouina-87b261306" target="_blank" rel="noopener">Aymen</a></span>
+      <span>Made by <a href="https://www.linkedin.com/in/aymen-laouina-87b261306" target="_blank" rel="noopener">Aymen Laouina</a></span>
     </div>
   </footer>
 
@@ -1374,6 +1519,23 @@
     });
   })();
 
+  /* QUESTIONS FRÉQUENTES — même accordéon, un écouteur délégué de
+     plus. Les réponses sont indépendantes : ouvrir l'une ne referme
+     pas les autres, on peut donc en comparer deux.               */
+  (function(){
+    document.addEventListener('click', function(e){
+      var btn = e.target.closest && e.target.closest('.faq-q');
+      if (!btn) return;
+
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!panel) return;
+
+      var open = panel.hidden;
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  })();
+
   /* BARRE FLOTTANTE — état au défilement + jauge de progression.
      Les deux lisent la même mesure, donc un seul écouteur suffit.
      Il est passif : il ne bloque jamais le défilement.            */
@@ -1381,6 +1543,28 @@
     var bar  = document.getElementById('top'),
         rail = document.getElementById('rail');
     if (!bar || !rail) return;
+
+    /* La navigation dit AUSSI où l'on est : le lien de la section
+       traversée reste souligné. On lit la position de chaque cible
+       par rapport au haut de la fenêtre, et la dernière passée sous
+       la barre l'emporte. Les cibles sont dans l'ordre du document,
+       donc une simple boucle suffit — pas d'observateur à régler. */
+    var links   = [].slice.call(document.querySelectorAll('.nav a[href^="#"]')),
+        targets = links.map(function(a){
+          return document.getElementById(a.getAttribute('href').slice(1));
+        }),
+        current = -1;
+
+    function spy(){
+      var found = -1, i;
+      for (i = 0; i < targets.length; i++){
+        if (targets[i] && targets[i].getBoundingClientRect().top <= 140) found = i;
+      }
+      if (found === current) return;
+      if (current > -1) links[current].removeAttribute('aria-current');
+      if (found   > -1) links[found].setAttribute('aria-current', 'location');
+      current = found;
+    }
 
     var ticking = false;
 
@@ -1391,6 +1575,7 @@
 
       bar.classList.toggle('is-stuck', y > 24);
       rail.style.width = (total > 0 ? Math.min(y / total, 1) * 100 : 0) + '%';
+      spy();
     }
 
     addEventListener('scroll', function(){
