@@ -6,6 +6,10 @@
 <title>Centrale Tech — École Centrale Casablanca</title>
 <meta name="description" content="Club d'innovation technologique de l'École Centrale Casablanca. Six pôles, 29 membres, bureau 2026-2027.">
 
+<!-- ICÔNE D'ONGLET — le logo du club. -->
+<link rel="icon" type="image/png" href="assets/images/Logo3.png">
+<link rel="apple-touch-icon" href="assets/images/Logo3.png">
+
 <!--
   ══════════════════════════════════════════════════════════
   CENTRALE TECH — version géométrique
@@ -258,6 +262,7 @@
             backdrop-filter:var(--glass-blur);
     box-shadow:0 1.4rem 2.8rem -1.1rem var(--bar-shadow),
                inset 0 2px 0 var(--glass-edge);
+    text-align:center;
   }
   @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
     .pane, .logo-slot{ background:rgba(var(--bg-rgb), .96); }
@@ -270,7 +275,7 @@
     text-transform:uppercase;
   }
   .hero h1 em{ font-style:normal; display:block; }
-  .lede{ font-size:clamp(1.0625rem,2.1vw,1.25rem); margin:0; max-width:38ch; }
+  .lede{ font-size:clamp(1.0625rem,2.1vw,1.25rem); margin:0 auto; max-width:38ch; }
 
   .cta{
     display:inline-block; background:var(--fg); color:var(--bg);
@@ -300,21 +305,24 @@
     font-size:clamp(1.5rem,4.5vw,2.25rem); letter-spacing:-0.015em;
     line-height:1.05; margin:0 0 0.4rem;
   }
-  .lead-in > p{ margin:0; max-width:44ch; }
+  .lead-in{ text-align:center; }
+  .lead-in > p{ margin:0 auto; max-width:52ch; }
 
   /* poles */
-  .pole{ padding:3.25rem 0; border-top:2px solid var(--fg); margin-top:3.25rem; }
-  .pole-head{ display:grid; grid-template-columns:4.5rem 1fr; gap:1.25rem; align-items:start; }
-  @media (min-width:44rem){ .pole-head{ grid-template-columns:6.5rem 1fr; gap:1.75rem; } }
-  .motif{ width:100%; aspect-ratio:1; }
+  .pole{ padding:3.25rem 0; border-top:2px solid var(--fg); margin-top:3.25rem; text-align:center; }
+  /* Le motif passe au-dessus du titre plutôt qu'à sa gauche : tout
+     le contenu de la page tient sur un même axe central.          */
+  .pole-head{ display:grid; justify-items:center; gap:1.1rem; }
+  .motif{ width:4.5rem; aspect-ratio:1; }
+  @media (min-width:44rem){ .motif{ width:5.75rem; } }
   .motif svg{ width:100%; height:100%; display:block; }
   .pole-head h3{
     font-family:var(--display); font-weight:600; text-transform:uppercase;
     font-size:clamp(1.1875rem,3.2vw,1.75rem); letter-spacing:-0.01em;
     line-height:1.1; margin:0 0 0.4rem;
   }
-  .pole-head p{ margin:0 0 0.7rem; max-width:52ch; }
-  .tags{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:0.4rem; }
+  .pole-head p{ margin:0 auto 0.9rem; max-width:52ch; }
+  .tags{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:0.4rem; justify-content:center; }
   .tags li{
     border:1.5px solid var(--fg); padding:0.15rem 0.6rem;
     font-size:0.75rem; font-weight:500;
@@ -326,9 +334,11 @@
     grid-template-columns:repeat(auto-fill,minmax(7.5rem,1fr));
   }
   .person{ text-align:center; }
+  /* Vignettes carrées : même géométrie que les motifs des pôles et
+     que le damier du hero. Aucun arrondi nulle part sur la page.  */
   .ph{
     margin:0 auto 0.7rem; width:100%; max-width:7rem; aspect-ratio:1;
-    border-radius:50%; overflow:hidden; background:currentColor;
+    overflow:hidden; background:currentColor;
     display:grid; place-items:center; position:relative;
   }
   .person.is-lead .ph{ box-shadow:0 0 0 3px var(--bg), 0 0 0 6px currentColor; }
@@ -360,7 +370,8 @@
   .finish small{ display:block; margin-top:1.25rem; font-size:0.875rem; }
   .foot{
     border-top:2px solid var(--fg); padding:1.5rem 0 1.25rem;
-    display:flex; flex-wrap:wrap; gap:0.4rem 2rem; font-size:0.875rem; font-weight:500;
+    display:flex; flex-wrap:wrap; justify-content:center;
+    gap:0.4rem 2rem; font-size:0.875rem; font-weight:500;
   }
   .foot a{ text-decoration:none; }
   .foot a:hover{ color:var(--violet); }
@@ -532,6 +543,182 @@
     .social{ display:none; }
   }
 
+
+  /* ══ SECTIONS REPRISES DE LA BROCHURE ════════════════════
+     Tout ce qui suit vient de contenue.html, retranscrit dans la
+     grammaire de la page : filets de 2px, aucun arrondi, titres en
+     capitales de la fonte d'affichage, et les quatre tons de la
+     charte comme seul accent. Aucune couleur nouvelle.          */
+
+  /* Sur-titre : le "// SECTION" de la brochure, en plus sobre. */
+  .kicker{
+    display:block; font-family:var(--display); font-size:0.75rem;
+    font-weight:600; letter-spacing:0.18em; text-transform:uppercase;
+    margin:0 0 0.7rem; opacity:.65;
+  }
+
+  /* ── GRILLE DE CARTES ────────────────────────────────
+     Une seule grille sert aux atouts et au calendrier : les deux
+     disent la même chose — un titre court, trois lignes — et
+     méritent donc la même boîte.                                */
+  .cards{
+    list-style:none; margin:2.75rem 0 0; padding:0; display:grid; gap:1.25rem;
+    grid-template-columns:repeat(auto-fit,minmax(16.5rem,1fr));
+  }
+  .card{
+    border:2px solid var(--fg); padding:1.75rem 1.4rem; text-align:center;
+    display:flex; flex-direction:column; align-items:center;
+    transition:background .14s ease, color .14s ease;
+  }
+  .card:hover{ background:var(--fg); color:var(--bg); }
+  .card h3{
+    font-family:var(--display); font-weight:600; text-transform:uppercase;
+    font-size:1rem; letter-spacing:0.01em; line-height:1.2; margin:0 0 0.6rem;
+  }
+  .card p{ margin:0; font-size:0.9375rem; line-height:1.55; }
+  /* Le carré de tête remplace l'émoji : même rôle de repère, mais
+     dessiné dans le vocabulaire géométrique du reste de la page. */
+  .card .motif{ width:2.75rem; margin:0 0 1rem; }
+  /* Le jalon du calendrier : la date, en petites capitales. */
+  .card .when{
+    display:block; font-family:var(--display); font-size:0.6875rem;
+    font-weight:600; letter-spacing:0.14em; text-transform:uppercase;
+    border:1.5px solid currentColor; padding:0.2rem 0.65rem; margin:0 0 0.9rem;
+  }
+
+  /* ── AFFICHES DE L'ÉQUIPE DIRIGEANTE ─────────────────────
+     Le bureau exécutif occupe toute la largeur, les deux pôles de
+     soutien se partagent la ligne du dessous.                    */
+  /* Les affiches sont au format portrait 4:5 : sans plafond, celle du
+     bureau ferait deux écrans de haut à elle seule. On les borne donc
+     en largeur, et elles restent centrées sur l'axe de la page.    */
+  .boards{ list-style:none; margin:2.75rem 0 0; padding:0; display:grid; gap:1.75rem; }
+  .board{ border:2px solid var(--fg); background:rgba(var(--bg-rgb),.55); }
+  .boards > .board{ max-width:27rem; margin:0 auto; width:100%; }
+  .board img{ width:100%; height:auto; display:block; border-bottom:2px solid var(--fg); }
+  .board-txt{ padding:1.25rem 1.35rem 1.4rem; text-align:center; }
+  .board-txt h3{
+    font-family:var(--display); font-weight:600; text-transform:uppercase;
+    font-size:1.0625rem; letter-spacing:0.01em; line-height:1.2; margin:0 0 0.5rem;
+  }
+  .board-txt p{ margin:0; font-size:0.875rem; line-height:1.5; }
+  .boards .under{
+    display:grid; gap:1.75rem; max-width:56rem; margin:0 auto; width:100%;
+    justify-items:center;
+  }
+  .boards .under .board{ max-width:27rem; width:100%; }
+  @media (min-width:52rem){ .boards .under{ grid-template-columns:1fr 1fr; } }
+
+  /* ── DESCRIPTIF DÉPLIÉ D'UN PÔLE ───────────────────────
+     Même motif « disclosure » que le menu des pôles de la barre :
+     un bouton, un panneau, l'état porté par aria-expanded.       */
+  /* Pleine largeur : le bouton se centre tout seul (le pôle est
+     centré), et le panneau déplié dispose de toute la colonne. */
+  .pole-more{ width:100%; }
+  .more-btn{
+    appearance:none; -webkit-appearance:none;
+    display:inline-flex; align-items:center; gap:0.5rem;
+    background:none; border:2px solid var(--fg); color:var(--fg);
+    font-family:var(--display); font-size:0.875rem; font-weight:600;
+    letter-spacing:0.02em; text-transform:uppercase;
+    padding:0.4rem 0.9rem; cursor:pointer;
+    transition:background .14s ease, color .14s ease;
+  }
+  .more-btn:hover, .more-btn[aria-expanded="true"]{ background:var(--fg); color:var(--bg); }
+  .more-btn svg{ width:0.7rem; height:0.7rem; display:block; transition:transform .2s ease; }
+  .more-btn[aria-expanded="true"] svg{ transform:rotate(180deg); }
+
+  .more-panel{
+    margin:1.5rem auto 0; max-width:52rem; text-align:left;
+    border:2px solid var(--fg); padding:1.75rem 1.6rem;
+    background:rgba(var(--bg-rgb),.55);
+  }
+  .more-panel[hidden]{ display:none; }
+  .motto{
+    margin:0 0 1.1rem; text-align:center;
+    font-family:var(--display); font-size:1.0625rem; font-weight:600;
+    line-height:1.35; border-bottom:2px solid var(--fg); padding-bottom:1rem;
+  }
+  .more-panel > p{ margin:0 0 1.4rem; font-size:0.9375rem; line-height:1.6; }
+  .bullets{ list-style:none; margin:0 0 1.5rem; padding:0; display:grid; gap:0.9rem; }
+  .bullets li{ display:grid; grid-template-columns:0.6rem 1fr; gap:0.8rem; font-size:0.9375rem; line-height:1.5; }
+  /* Le carré plein remplace la coche : même fonction de puce, même
+     géométrie que le reste. Il prend le ton du pôle.            */
+  .bullets li::before{
+    content:""; width:0.6rem; height:0.6rem; margin-top:0.45rem;
+    background:currentColor; display:block;
+  }
+  .stack-title{
+    font-family:var(--display); font-size:0.6875rem; font-weight:600;
+    letter-spacing:0.14em; text-transform:uppercase; margin:0 0 0.6rem; opacity:.65;
+  }
+  .more-panel .tags{ justify-content:flex-start; margin-bottom:1.6rem; }
+  .cta-sm{ margin-top:0; padding:0.7rem 1.5rem; font-size:0.9375rem; }
+
+  /* ── CAMPAGNE DE RECRUTEMENT ─────────────────────────
+     L'ancienne clôture, étoffée : le bandeau d'appel de la brochure
+     rendu en aplat de marque plutôt qu'en dégradé néon.         */
+  .badge{
+    display:inline-flex; align-items:center; gap:0.55rem;
+    border:2px solid var(--fg); padding:0.35rem 0.9rem; margin:0 0 1.75rem;
+    font-family:var(--display); font-size:0.6875rem; font-weight:600;
+    letter-spacing:0.13em; text-transform:uppercase;
+  }
+  .badge i{ width:0.5rem; height:0.5rem; background:var(--emerald); display:block; }
+  @media (prefers-reduced-motion:no-preference){
+    .badge i{ animation:pulse 1.8s ease-in-out infinite; }
+  }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.25; } }
+  /* Le titre de clôture est plus long qu'avant : 16ch le cassait en
+     six lignes. Le chapô en dessous garde sa propre largeur.     */
+  .finish p{ max-width:21ch; }
+  .finish .sub{
+    font-family:var(--body); font-weight:400; text-transform:none;
+    font-size:1.0625rem; line-height:1.55; letter-spacing:0;
+    margin:0 auto 0.5rem; max-width:46ch;
+  }
+  .btn-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:0.85rem; }
+  /* Bouton secondaire : le contour du bouton plein, sans l'aplat. */
+  .cta.ghost{ background:none; color:var(--fg); box-shadow:inset 0 0 0 2px var(--fg); }
+  .cta.ghost:hover{ background:var(--fg); color:var(--bg); }
+  .qr{ margin:2.75rem auto 0; display:grid; justify-items:center; gap:0.75rem; }
+  .qr img{ width:10.5rem; height:10.5rem; display:block; border:2px solid var(--fg); }
+  .qr span{ font-size:0.8125rem; font-weight:500; }
+
+  /* ── PIED DE PAGE DÉVELOPPÉ ────────────────────────── */
+  .site-foot{ border-top:2px solid var(--fg); margin-top:3.25rem; padding:3rem 0 0; }
+  .foot-grid{
+    display:grid; gap:2.25rem; text-align:center;
+    grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));
+  }
+  @media (min-width:60rem){ .foot-grid{ grid-template-columns:1.6fr 1fr 1fr 1fr; text-align:left; } }
+  .foot-brand b{
+    display:block; font-family:var(--display); font-weight:600;
+    text-transform:uppercase; font-size:1.25rem; letter-spacing:-0.01em; line-height:1;
+  }
+  .foot-brand small{ display:block; font-size:0.8125rem; margin-top:0.25rem; opacity:.7; }
+  .foot-brand p{ margin:1rem 0 0; font-size:0.875rem; line-height:1.6; }
+  .foot-grid h4{
+    font-family:var(--display); font-size:0.6875rem; font-weight:600;
+    letter-spacing:0.14em; text-transform:uppercase; margin:0 0 0.9rem; opacity:.65;
+  }
+  .foot-grid ul{ list-style:none; margin:0; padding:0; display:grid; gap:0.45rem; font-size:0.875rem; }
+  .foot-grid a{ text-decoration:none; transition:color .14s ease; }
+  .foot-grid a:hover, .foot-grid a:focus-visible{ color:var(--violet); }
+  .foot-grid li.plain{ opacity:.7; }
+  .foot-bottom{
+    margin-top:2.5rem; border-top:2px solid var(--fg);
+    padding:1.25rem 0 3rem; display:flex; flex-wrap:wrap;
+    justify-content:center; gap:0.5rem 2rem; font-size:0.8125rem;
+  }
+  @media (min-width:52rem){ .foot-bottom{ justify-content:space-between; } }
+  .foot-bottom a{
+    font-weight:600; color:inherit; text-decoration:underline;
+    text-underline-offset:0.2em; text-decoration-thickness:1.5px;
+    transition:color .14s ease;
+  }
+  .foot-bottom a:hover, .foot-bottom a:focus-visible{ color:var(--violet); }
+
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; } html{ scroll-behavior:auto; } }
 </style>
 <script>
@@ -578,7 +765,7 @@
          LIEN-INSTAGRAM: remplacez le # par l'URL du compte,
                          p. ex. https://www.instagram.com/centraletech.ecc/ -->
     <div class="social">
-      <a href="CentraleTech@centrale-casablanca.ma" aria-label="Écrire au club">
+      <a href="mailto:CentraleTech@centrale-casablanca.ma" aria-label="Écrire au club">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <rect x="2" y="4.5" width="20" height="15" fill="none"
                 stroke="currentColor" stroke-width="2.2"/>
@@ -618,41 +805,24 @@
 
   <!-- Chaque pastille reprend le motif du pôle, en réduction. -->
   <ul class="jump-menu" id="jump-menu" hidden>
-    <li><a href="#pole-communication">
-      <span class="chip tone-violet"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/>
-<g fill="var(--bg)"><circle cx="25" cy="25" r="9"/><circle cx="50" cy="25" r="9"/><circle cx="75" cy="25" r="9"/><circle cx="25" cy="50" r="9"/><circle cx="50" cy="50" r="9"/><circle cx="75" cy="50" r="9"/><circle cx="25" cy="75" r="9"/><circle cx="50" cy="75" r="9"/><circle cx="75" cy="75" r="9"/></g></svg></span>
-      Communication</a></li>
-
     <li><a href="#pole-design-web">
-      <span class="chip tone-emerald"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/>
-<g fill="none" stroke="var(--bg)" stroke-width="7">
-<path d="M100 22 A78 78 0 0 0 22 100"/><path d="M100 52 A48 48 0 0 0 52 100"/>
-<path d="M100 80 A20 20 0 0 0 80 100"/></g></svg></span>
+      <span class="chip tone-emerald"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><g fill="none" stroke="var(--bg)" stroke-width="7"><path d="M100 22 A78 78 0 0 0 22 100"/><path d="M100 52 A48 48 0 0 0 52 100"/><path d="M100 80 A20 20 0 0 0 80 100"/></g></svg></span>
       Design &amp; Développement Web</a></li>
 
     <li><a href="#pole-data-ia">
-      <span class="chip tone-amber"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/>
-<g fill="var(--bg)"><path d="M0 0 H50 V50 Z"/><path d="M100 0 V50 H50 Z"/>
-<path d="M0 100 V50 H50 Z"/><path d="M100 100 H50 V50 Z"/></g></svg></span>
+      <span class="chip tone-amber"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><g fill="var(--bg)"><path d="M0 0 H50 V50 Z"/><path d="M100 0 V50 H50 Z"/><path d="M0 100 V50 H50 Z"/><path d="M100 100 H50 V50 Z"/></g></svg></span>
       Data &amp; IA</a></li>
 
     <li><a href="#pole-cyber">
-      <span class="chip tone-ink"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="var(--bg)"/>
-<circle cx="50" cy="50" r="34" fill="none" stroke="currentColor" stroke-width="10"/>
-<circle cx="50" cy="50" r="19" fill="currentColor"/></svg></span>
+      <span class="chip tone-ink"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="var(--bg)"/><circle cx="50" cy="50" r="34" fill="none" stroke="currentColor" stroke-width="10"/><circle cx="50" cy="50" r="19" fill="currentColor"/></svg></span>
       Cybersécurité</a></li>
 
     <li><a href="#pole-robotique">
-      <span class="chip tone-violet"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/>
-<path d="M0 100 L100 0 V100 Z" fill="var(--bg)"/></svg></span>
+      <span class="chip tone-violet"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><path d="M0 100 L100 0 V100 Z" fill="var(--bg)"/></svg></span>
       Robotique</a></li>
 
-    <li><a href="#pole-prospection">
-      <span class="chip tone-emerald"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/>
-<path d="M100 0 A100 100 0 0 1 0 100 H100 Z" fill="var(--bg)"/></svg></span>
-      Prospection &amp; Logistique</a></li>
-
-    <li class="all"><a href="#poles">Voir les six pôles</a></li>
+    <li class="all"><a href="#poles">Voir les quatre pôles</a></li>
+    <li class="all"><a href="#rejoindre">Candidater</a></li>
   </ul>
 
   <div class="rail" aria-hidden="true"><i id="rail"></i></div>
@@ -664,7 +834,7 @@
     <div class="tilegrid">
       <!-- LOGO — le fichier attendu est photos/Logo.jpg -->
       <figure class="logo-slot" style="margin:0">
-        <img src="photos/Logo3.png" alt="Centrale Tech">
+        <img src="assets/images/Logo3.png" alt="Centrale Tech">
       </figure>
       <div class="tone-ink"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/>
 <g fill="var(--bg)"><path d="M0 0 H50 V50 Z"/><path d="M100 0 V50 H50 Z"/>
@@ -723,44 +893,50 @@
       </ul>
   </section>
 
-  <section class="lead-in" id="poles">
-    <h2>Nos pôles</h2>
+  <!-- ÉQUIPE DIRIGEANTE — les affiches du bureau et des deux pôles
+       de soutien, reprises de la brochure. Le bureau exécutif tient
+       toute la largeur, les deux autres passent dessous. -->
+  <section class="lead-in" id="equipe">
+    <span class="kicker">// Gouvernance &amp; structure</span>
+    <h2>L'équipe dirigeante</h2>
+    <p>Une gouvernance structurée pour encadrer, accompagner et propulser chaque nouveau membre vers l'excellence technique.</p>
+
+    <ul class="boards">
+      <li class="board">
+        <img src="assets/images/team/bureau_executif.png"
+             alt="Bureau exécutif Centrale Tech 2026-2027" loading="lazy">
+        <div class="board-txt">
+          <h3>Le Bureau Exécutif 2026–2027</h3>
+          <p><b>Anwar MOUNIR</b> (Président) • <b>Yahya EL OMARI</b> (Vice-Président) • <b>Aya KHABIR</b> (Coordination des Pôles) • <b>Tawba BENZAYED</b> (Trésorière) • <b>Omar OUAJIF</b> (SG Rédaction &amp; Archivage) • <b>Daniela ZOUNGRANA</b> (SG Administratif &amp; Relations École).</p>
+        </div>
+      </li>
+
+      <li class="under">
+        <div class="board">
+          <img src="assets/images/team/pole_prospection_logistique.png"
+               alt="Pôle Prospection &amp; Logistique Centrale Tech" loading="lazy">
+          <div class="board-txt">
+            <h3>Pôle Prospection &amp; Logistique</h3>
+            <p><b>Mostafa Amine ZAKANI</b> (Lead Logistique) • <b>Nassirou DIALLO</b> (Logistique) • <b>Laila EL ARARI</b> (Prospection) • <b>Abdessadik CHAHBOUNE</b> (Prospection). En charge des partenariats, du sponsoring et de l'organisation du TechDay.</p>
+          </div>
+        </div>
+        <div class="board">
+          <img src="assets/images/team/pole_communication.png"
+               alt="Pôle Communication Centrale Tech" loading="lazy">
+          <div class="board-txt">
+            <h3>Pôle Communication &amp; Stratégie</h3>
+            <p><b>Mahamadou SANOGO</b> (Externe) • <b>Papy NANA</b> (Interne) • <b>Ichrak EL MAKSSOUD</b> (Branding) • <b>Mohammed CHBAB</b> (Design graphique) • <b>Khaoula ZERZBANE</b> (Vidéo &amp; Streaming).</p>
+          </div>
+        </div>
+      </li>
+    </ul>
   </section>
 
-<section class="pole" id="pole-communication">
-      <!-- NOTE : description rédigée par défaut, à valider par le pôle -->
-      <div class="pole-head">
-        <div class="motif tone-violet"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/>
-<g fill="var(--bg)"><circle cx="25" cy="25" r="9"/><circle cx="50" cy="25" r="9"/><circle cx="75" cy="25" r="9"/><circle cx="25" cy="50" r="9"/><circle cx="50" cy="50" r="9"/><circle cx="75" cy="50" r="9"/><circle cx="25" cy="75" r="9"/><circle cx="50" cy="75" r="9"/><circle cx="75" cy="75" r="9"/></g></svg></div>
-        <div>
-          <h3>Pôle Communication</h3>
-          <p>Image du club, réseaux sociaux, branding et archivage de nos activités.</p>
-          <ul class="tags"><li>Branding</li><li>Réseaux sociaux</li><li>Vidéo & Streaming</li></ul>
-        </div>
-      </div>
-      <ul class="people">
-        <li class="person is-lead">
-          <figure class="ph tone-violet"><!-- photos/mahamadou-sanogo.jpg --><span>M</span></figure>
-          <h4>Mahamadou SANOGO</h4><p>Responsable Communication Externe & Stratégie</p>
-        </li>
-        <li class="person">
-          <figure class="ph tone-violet"><!-- photos/papy-nana.jpg --><span>P</span></figure>
-          <h4>Papy NANA</h4><p>Responsable Communication Interne & Archivage</p>
-        </li>
-        <li class="person">
-          <figure class="ph tone-violet"><!-- photos/ichrak-el-makssoud.jpg --><span>I</span></figure>
-          <h4>Ichrak EL MAKSSOUD</h4><p>Responsable Branding & Publication</p>
-        </li>
-        <li class="person">
-          <figure class="ph tone-violet"><!-- photos/mohammed-chbab.jpg --><span>M</span></figure>
-          <h4>Mohammed CHBAB</h4><p>Design Graphique</p>
-        </li>
-        <li class="person">
-          <figure class="ph tone-violet"><!-- photos/khaoula-zerzbane.jpg --><span>K</span></figure>
-          <h4>Khaoula ZERZBANE</h4><p>Responsable Réseaux Sociaux, Vidéo & Streaming</p>
-        </li>
-      </ul>
-    </section>
+  <section class="lead-in" id="poles">
+    <span class="kicker">// Domaines d'expertise</span>
+    <h2>Les quatre pôles techniques</h2>
+    <p>Chaque étudiant de première ou deuxième année peut candidater dans l'un de nos quatre pôles techniques. Choisissez la spécialité où vous voulez développer des compétences de haut niveau.</p>
+  </section>
 
     <section class="pole" id="pole-design-web">
       <div class="pole-head">
@@ -772,6 +948,28 @@
           <h3>Pôle Design &amp; Développement Web</h3>
           <p>Conception et développement d'applications web, mobiles et logicielles.</p>
           <ul class="tags"><li>Web Development</li><li>Mobile Apps</li><li>Software Engineering</li></ul>
+        </div>
+        <div class="pole-more">
+          <button type="button" class="more-btn" aria-expanded="false" aria-controls="more-web">
+            En savoir plus <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.5 4 L6 8.5 L10.5 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+          </button>
+
+          <div class="more-panel" id="more-web" hidden>
+            <p class="motto">« Architectures scalables, expériences temps réel et interfaces utilisateur d'élite. »</p>
+            <p>Ce pôle regroupe les développeurs full-stack et les designers UI/UX de Centrale Tech. Nous construisons les plateformes interactives du campus, gérons les architectures temps réel et inculquons les standards professionnels de développement collaboratif sur Git.</p>
+
+            <ul class="bullets">
+            <li><div><b>Projet Mock Trading Platform :</b> développement d'une plateforme boursière temps réel avec WebSockets, graphiques dynamiques et API REST.</div></li>
+            <li><div><b>Standards Git &amp; collaboration :</b> résolution de conflits complexes, branching workflows, revues de pull requests et CI/CD automatisé.</div></li>
+            <li><div><b>Sprints open-source :</b> sessions collectives pour contribuer à de vrais dépôts open-source et bâtir un profil GitHub vérifiable.</div></li>
+            <li><div><b>UI/UX de haut niveau :</b> prototypage Figma, design systems avancés et maîtrise des frameworks modernes (React, Next.js, Tailwind).</div></li>
+            </ul>
+
+            <p class="stack-title">Stack technique du pôle</p>
+            <ul class="tags"><li>TypeScript</li><li>React</li><li>Next.js</li><li>Node.js</li><li>WebSockets</li><li>TailwindCSS</li><li>Git &amp; GitHub</li><li>Figma</li></ul>
+
+            <a class="cta cta-sm" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=eF-Del-2XEmV2BIjjDk9eiSMIvigBCxFiZrnXrNQQRRUOVRHVVczU0ZSNFU5RkdISkM4Szc0VDZQSy4u" target="_blank" rel="noopener">Postuler en Dev Web</a>
+          </div>
         </div>
       </div>
       <ul class="people">
@@ -799,6 +997,28 @@
           <h3>Pôle Data &amp; IA</h3>
           <p>Intelligence artificielle et analyse de données avancée.</p>
           <ul class="tags"><li>Machine Learning</li><li>Deep Learning</li><li>Data Analysis</li></ul>
+        </div>
+        <div class="pole-more">
+          <button type="button" class="more-btn" aria-expanded="false" aria-controls="more-data">
+            En savoir plus <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.5 4 L6 8.5 L10.5 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+          </button>
+
+          <div class="more-panel" id="more-data" hidden>
+            <p class="motto">« Modélisation statistique rigoureuse, deep learning et IA générative appliquée. »</p>
+            <p>Le pôle Data &amp; IA forme des ingénieurs capables de dompter les données complexes, d'entraîner des modèles prédictifs haute performance et de déployer des architectures modernes (RAG, séries temporelles, computer vision) dans des cas d'usage industriels et concrets.</p>
+
+            <ul class="bullets">
+            <li><div><b>Mock Trading &amp; séries temporelles :</b> prédiction de cours boursiers avec modèles ARIMA et réseaux de neurones récurrents (LSTM).</div></li>
+            <li><div><b>IA générative &amp; pipelines RAG :</b> découpage vectoriel, chunking intelligent et embeddings pour la recherche instantanée dans les corpus académiques.</div></li>
+            <li><div><b>Datathons &amp; hackathons :</b> équipes dédiées aux compétitions nationales de machine learning et de computer vision.</div></li>
+            <li><div><b>Computer vision &amp; traitement d'images :</b> ateliers appliqués de reconnaissance visuelle, segmentation et réseaux convolutifs (CNN).</div></li>
+            </ul>
+
+            <p class="stack-title">Stack technique du pôle</p>
+            <ul class="tags"><li>Python</li><li>PyTorch</li><li>TensorFlow</li><li>Scikit-Learn</li><li>LangChain</li><li>Pandas / NumPy</li><li>Hugging Face</li><li>Vector DBs</li></ul>
+
+            <a class="cta cta-sm" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=eF-Del-2XEmV2BIjjDk9eiSMIvigBCxFiZrnXrNQQRRUOVRHVVczU0ZSNFU5RkdISkM4Szc0VDZQSy4u" target="_blank" rel="noopener">Postuler en Data &amp; IA</a>
+          </div>
         </div>
       </div>
       <ul class="people">
@@ -836,6 +1056,28 @@
           <p>Sécurité offensive et défensive, CTF et sensibilisation aux bonnes pratiques.</p>
           <ul class="tags"><li>CTF</li><li>Pentest</li><li>Sécurité réseau</li></ul>
         </div>
+        <div class="pole-more">
+          <button type="button" class="more-btn" aria-expanded="false" aria-controls="more-cyber">
+            En savoir plus <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.5 4 L6 8.5 L10.5 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+          </button>
+
+          <div class="more-panel" id="more-cyber" hidden>
+            <p class="motto">« Maîtriser l'attaque pour forger la défense. Éthique, rigueur et investigation. »</p>
+            <p>Le pôle Cybersécurité plonge ses recrues dans l'univers de la sécurité offensive et défensive. De l'audit de vulnérabilités aux compétitions internationales de CTF (Capture The Flag), les membres apprennent à tester et à blinder les systèmes informatiques.</p>
+
+            <ul class="bullets">
+            <li><div><b>Compétitions CTF :</b> entraînement et alignement d'équipes sur les compétitions Capture The Flag universitaires et internationales.</div></li>
+            <li><div><b>Web security &amp; pentesting :</b> analyse des failles OWASP Top 10 (SQLi, XSS, SSRF), interception de trafic et tests d'intrusion éthiques.</div></li>
+            <li><div><b>Reverse engineering &amp; crypto :</b> analyse de binaires compilés, décompilation et décryptage de protocoles cryptographiques.</div></li>
+            <li><div><b>Hardening &amp; infrastructures :</b> sécurisation des serveurs du club et mise en place de conteneurs Docker isolés pour les challenges.</div></li>
+            </ul>
+
+            <p class="stack-title">Stack technique du pôle</p>
+            <ul class="tags"><li>Kali Linux</li><li>Wireshark</li><li>Burp Suite</li><li>Metasploit</li><li>Ghidra</li><li>Docker</li><li>Python Security</li><li>Linux Hardening</li></ul>
+
+            <a class="cta cta-sm" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=eF-Del-2XEmV2BIjjDk9eiSMIvigBCxFiZrnXrNQQRRUOVRHVVczU0ZSNFU5RkdISkM4Szc0VDZQSy4u" target="_blank" rel="noopener">Postuler en Cybersécurité</a>
+          </div>
+        </div>
       </div>
       <ul class="people">
         <li class="person is-lead">
@@ -866,6 +1108,28 @@
           <p>Conception et développement de solutions robotiques innovantes.</p>
           <ul class="tags"><li>Arduino</li><li>ESP32</li><li>Raspberry Pi</li></ul>
         </div>
+        <div class="pole-more">
+          <button type="button" class="more-btn" aria-expanded="false" aria-controls="more-robotique">
+            En savoir plus <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1.5 4 L6 8.5 L10.5 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
+          </button>
+
+          <div class="more-panel" id="more-robotique" hidden>
+            <p class="motto">« De la modélisation CAO au circuit imprimé et à l'arène de tournoi. »</p>
+            <p>Le pôle Robotique est le cœur matériel de Centrale Tech. Il conçoit, usine, assemble et programme des robots autonomes taillés pour triompher lors des compétitions nationales (tournois inter-écoles et défis nationaux) et prépare le grand événement <b>TechDay</b> de l'ECC.</p>
+
+            <ul class="bullets">
+            <li><div><b>Conception 3D &amp; fabrication :</b> SolidWorks, Fusion 360, impression 3D filament/résine et découpe laser au Mini-FabLab.</div></li>
+            <li><div><b>Électronique avancée (PCB) :</b> fini les plaques d'essai fragiles — conception de circuits imprimés sur mesure avec KiCAD.</div></li>
+            <li><div><b>Contrôle &amp; automatique :</b> régulateurs PID, filtres de Kalman pour la fusion de capteurs, contrôle prédictif et évitement d'obstacles.</div></li>
+            <li><div><b>Rythme de compétition :</b> 2 à 3 équipes autonomes avec un calendrier de compétitions régulières, tous les deux mois.</div></li>
+            </ul>
+
+            <p class="stack-title">Stack technique du pôle</p>
+            <ul class="tags"><li>ROS 2</li><li>C / C++</li><li>Python</li><li>KiCAD (PCB)</li><li>SolidWorks</li><li>Fusion 360</li><li>STM32 / Arduino</li><li>Filtres de Kalman</li></ul>
+
+            <a class="cta cta-sm" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=eF-Del-2XEmV2BIjjDk9eiSMIvigBCxFiZrnXrNQQRRUOVRHVVczU0ZSNFU5RkdISkM4Szc0VDZQSy4u" target="_blank" rel="noopener">Postuler en Robotique</a>
+          </div>
+        </div>
       </div>
       <ul class="people">
         <li class="person is-lead">
@@ -879,60 +1143,152 @@
       </ul>
     </section>
 
-    <section class="pole" id="pole-prospection">
-      <!-- NOTE : description rédigée par défaut, à valider par le pôle -->
-      <div class="pole-head">
-        <div class="motif tone-emerald"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/>
-<path d="M100 0 A100 100 0 0 1 0 100 H100 Z" fill="var(--bg)"/></svg></div>
-        <div>
-          <h3>Pôle Prospection &amp; Logistique</h3>
-          <p>Partenariats, sponsors et organisation matérielle de nos événements.</p>
-          <ul class="tags"><li>Partenariats</li><li>Sponsoring</li><li>Événementiel</li></ul>
-        </div>
-      </div>
-      <ul class="people">
-        <li class="person">
-          <figure class="ph tone-emerald"><!-- photos/laila-el-arari.jpg --><span>L</span></figure>
-          <h4>Laila EL ARARI</h4><p>Chargée de Prospection</p>
-        </li>
-        <li class="person">
-          <figure class="ph tone-emerald"><!-- photos/abdsedik-chahboune.jpg --><span>A</span></figure>
-          <h4>Abdsedik CHAHBOUNE</h4><p>Chargé de Prospection</p>
-        </li>
-        <li class="person is-lead">
-          <figure class="ph tone-emerald"><!-- photos/mostafa-amine-zakani.jpg --><span>M</span></figure>
-          <h4>Mostafa Amine ZAKANI</h4><p>Responsable Logistique</p>
-        </li>
-        <li class="person">
-          <figure class="ph tone-emerald"><!-- photos/diallo-nassirou-amadou-oumar.jpg --><span>D</span></figure>
-          <h4>Diallo Nassirou AMADOU OUMAR</h4><p>Chargé de Logistique</p>
-        </li>
-      </ul>
-    </section>
 
-  <section class="finish" id="rejoindre">
-    <p>Rejoignez le pôle qui vous ressemble.</p>
-    <!-- LIEN-CANDIDATURE 2/2 -->
-    <a class="cta" href="#" target="_blank" rel="noopener">Postuler</a>
-    <small>Candidatures pas encore ouvertes</small>
+  <!-- POURQUOI NOUS REJOINDRE — les six atouts de la brochure, en
+       cartes filetées plutôt qu'en tuiles émoji. -->
+  <section class="lead-in" id="pourquoi">
+    <span class="kicker">// L'écosystème Centrale Tech</span>
+    <h2>Pourquoi nous rejoindre&nbsp;?</h2>
+    <p>Intégrer Centrale Tech, ce n'est pas simplement rejoindre un club étudiant : c'est un accélérateur de carrière technique, de leadership et d'ingénierie appliquée.</p>
+
+    <ul class="cards">
+      <li class="card">
+        <div class="motif tone-violet"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><g fill="var(--bg)"><circle cx="25" cy="25" r="9"/><circle cx="50" cy="25" r="9"/><circle cx="75" cy="25" r="9"/><circle cx="25" cy="50" r="9"/><circle cx="50" cy="50" r="9"/><circle cx="75" cy="50" r="9"/><circle cx="25" cy="75" r="9"/><circle cx="50" cy="75" r="9"/><circle cx="75" cy="75" r="9"/></g></svg></div>
+        <h3>Programme de mentorat 1-to-1</h3>
+        <p>Chaque nouvel étudiant (1A) est parrainé par un membre du bureau exécutif : suivi personnalisé, progression technique rapide et équilibre préservé avec les cours.</p>
+      </li>
+      <li class="card">
+        <div class="motif tone-emerald"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><g fill="none" stroke="var(--bg)" stroke-width="7"><path d="M100 22 A78 78 0 0 0 22 100"/><path d="M100 52 A48 48 0 0 0 52 100"/><path d="M100 80 A20 20 0 0 0 80 100"/></g></svg></div>
+        <h3>Accès privilégié au Mini-FabLab</h3>
+        <p>Un accès aux équipements de fabrication numérique : imprimantes 3D, découpeuse laser, stations de soudure électronique et composants de prototypage rapide.</p>
+      </li>
+      <li class="card">
+        <div class="motif tone-amber"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><g fill="var(--bg)"><path d="M0 0 H50 V50 Z"/><path d="M100 0 V50 H50 Z"/><path d="M0 100 V50 H50 Z"/><path d="M100 100 H50 V50 Z"/></g></svg></div>
+        <h3>Compétitions nationales &amp; hackathons</h3>
+        <p>Nous participons régulièrement aux compétitions de robotique nationales, aux tournois CTF de cybersécurité et aux datathons IA pour faire rayonner l'ECC.</p>
+      </li>
+      <li class="card">
+        <div class="motif tone-ink"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="var(--bg)"/><circle cx="50" cy="50" r="34" fill="none" stroke="currentColor" stroke-width="10"/><circle cx="50" cy="50" r="19" fill="currentColor"/></svg></div>
+        <h3>Système de mérite &amp; carrière</h3>
+        <p>Une gouvernance transparente qui récompense l'assiduité, les livraisons de code et la prise d'initiative, avec un accès direct aux responsabilités de lead pour le mandat suivant.</p>
+      </li>
+      <li class="card">
+        <div class="motif tone-violet"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><path d="M0 100 L100 0 V100 Z" fill="var(--bg)"/></svg></div>
+        <h3>Réseau industriel &amp; sponsors</h3>
+        <p>Rencontrez les ingénieurs des entreprises partenaires, échangez avec les anciens élèves de Centrale Casablanca et obtenez des recommandations concrètes.</p>
+      </li>
+      <li class="card">
+        <div class="motif tone-emerald"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><path d="M100 0 A100 100 0 0 1 0 100 H100 Z" fill="var(--bg)"/></svg></div>
+        <h3>Failure Fridays &amp; culture open-source</h3>
+        <p>Un rituel régulier pour partager bugs et échecs techniques en toute bienveillance, complété par des sprints collectifs de contribution open-source sur GitHub.</p>
+      </li>
+    </ul>
   </section>
 
-  <footer class="foot">
-    <a href="CentraleTech@centrale-casablanca.ma">CentraleTech@centrale-casablanca.ma</a>
-    <span>Campus Bouskoura, Casablanca</span>
-    <!-- Mêmes URL que les icônes de la barre : les contacts disparaissent
-         de la barre sur téléphone, ils restent lisibles ici. -->
-    <a href="https://www.linkedin.com/company/centrale-tech/posts/?feedView=all" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="https://www.instagram.com/centrale_tech/" target="_blank" rel="noopener">Instagram</a>
+  <!-- LES GRANDS RENDEZ-VOUS — la feuille de route du mandat. -->
+  <section class="lead-in" id="rendez-vous">
+    <span class="kicker">// Feuille de route du mandat</span>
+    <h2>Les grands rendez-vous</h2>
+    <p>Une année rythmée par des projets ambitieux et des livraisons concrètes.</p>
 
+    <ul class="cards">
+      <li class="card">
+        <div class="motif tone-emerald"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><g fill="none" stroke="var(--bg)" stroke-width="7"><path d="M100 22 A78 78 0 0 0 22 100"/><path d="M100 52 A48 48 0 0 0 52 100"/><path d="M100 80 A20 20 0 0 0 80 100"/></g></svg></div>
+        <span class="when">Septembre — Octobre</span>
+        <h3>Bootcamps d'intégration</h3>
+        <p>Sessions intensives pour toutes les recrues : Git/GitHub, modélisation CAO, bases des réseaux de neurones, sécurité web et initiation au Mini-FabLab.</p>
+      </li>
+      <li class="card">
+        <div class="motif tone-amber"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><g fill="var(--bg)"><path d="M0 0 H50 V50 Z"/><path d="M100 0 V50 H50 Z"/><path d="M0 100 V50 H50 Z"/><path d="M100 100 H50 V50 Z"/></g></svg></div>
+        <span class="when">Novembre — Décembre</span>
+        <h3>Mock Trading &amp; Datathon</h3>
+        <p>Collaboration Dev Web et Data &amp; IA : déploiement d'une plateforme de trading boursier simulé en temps réel et duel d'algorithmes prédictifs.</p>
+      </li>
+      <li class="card">
+        <div class="motif tone-violet"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="currentColor"/><path d="M0 100 L100 0 V100 Z" fill="var(--bg)"/></svg></div>
+        <span class="when">Janvier — Mars</span>
+        <h3>Tournois robotiques</h3>
+        <p>Alignement de 2 à 3 équipes de robots autonomes dans les arènes nationales de compétition, avec navigation avancée et évitement d'obstacles.</p>
+      </li>
+      <li class="card">
+        <div class="motif tone-ink"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="var(--bg)"/><circle cx="50" cy="50" r="34" fill="none" stroke="currentColor" stroke-width="10"/><circle cx="50" cy="50" r="19" fill="currentColor"/></svg></div>
+        <span class="when">Avril — Mai</span>
+        <h3>Le grand TechDay ECC</h3>
+        <p>Événement phare de l'école : plus de 200 participants, sponsors industriels, compétitions de robots sur pistes dédiées et démonstrations IA.</p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- CAMPAGNE DE RECRUTEMENT — le bandeau d'appel de la brochure. -->
+  <section class="finish" id="rejoindre">
+    <span class="badge"><i aria-hidden="true"></i>Campagne officielle de recrutement 2026–2027</span>
+    <p>Prêt à façonner le futur technique de l'ECC&nbsp;?</p>
+    <p class="sub">Rejoignez une équipe soudée de vingt-neuf ingénieurs passionnés, construisez des projets grandeur nature et musclez votre profil technique dès aujourd'hui.</p>
+
+    <div class="btn-row">
+      <!-- LIEN-CANDIDATURE 2/2 -->
+      <a class="cta" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=eF-Del-2XEmV2BIjjDk9eiSMIvigBCxFiZrnXrNQQRRUOVRHVVczU0ZSNFU5RkdISkM4Szc0VDZQSy4u" target="_blank" rel="noopener">Remplir le formulaire</a>
+      <a class="cta ghost" href="#poles">Explorer les quatre pôles</a>
+    </div>
+
+    <div class="qr">
+      <img src="assets/images/qr_code_candidature.png"
+           alt="QR code du formulaire de candidature Centrale Tech" loading="lazy">
+      <span>Ou scannez ce QR code depuis votre téléphone.</span>
+    </div>
+  </section>
+
+  <!-- PIED DE PAGE — repris de la brochure : quatre colonnes, puis
+       la ligne de bas de page. Mêmes URL que les icônes de la barre :
+       les contacts disparaissent de la barre sur téléphone, ils
+       restent lisibles ici. -->
+  <footer class="site-foot">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <b>Centrale Tech</b>
+        <small>École Centrale Casablanca</small>
+        <p>Hub d'innovation et de prototypage de l'École Centrale Casablanca.<br>
+           Mandat 2026–2027 sous la présidence d'Anwar Mounir.</p>
+      </div>
+
+      <div>
+        <h4>Les quatre pôles</h4>
+        <ul>
+          <li><a href="#pole-robotique">Robotique &amp; FabLab</a></li>
+          <li><a href="#pole-data-ia">Data &amp; IA</a></li>
+          <li><a href="#pole-design-web">Design &amp; Dev Web</a></li>
+          <li><a href="#pole-cyber">Cybersécurité</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#top">Accueil</a></li>
+          <li><a href="#equipe">Équipe dirigeante</a></li>
+          <li><a href="#pourquoi">Pourquoi nous&nbsp;?</a></li>
+          <li><a href="#rendez-vous">Feuille de route</a></li>
+          <li><a href="#rejoindre">Candidature</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contact &amp; école</h4>
+        <ul>
+          <li class="plain">Fondation École Centrale Casablanca</li>
+          <li class="plain">Ville Verte, côté latéral est, Bouskoura</li>
+          <li><a href="mailto:CentraleTech@centrale-casablanca.ma">CentraleTech@centrale-casablanca.ma</a></li>
+          <li><a href="https://www.linkedin.com/company/centrale-tech/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://www.instagram.com/centrale_tech/" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <span>© 2026–2027 Centrale Tech — École Centrale Casablanca. Tous droits réservés.</span>
+      <span>Made by <a href="https://www.linkedin.com/in/aymen-laouina-87b261306" target="_blank" rel="noopener">Aymen</a></span>
+    </div>
   </footer>
-
-  <!-- LIEN-LINKEDIN — remplacez le # ci-dessous par l'URL du profil,
-       par exemple https://www.linkedin.com/in/aymen-laouina/ -->
-  <p class="credit">
-    Site conçu et réalisé par
-    <a href="https://www.linkedin.com/in/aymen-laouina-87b261306" target="_blank" rel="noopener">Aymen&nbsp;Laouina</a>.
-  </p>
 
 </div>
 <script>
@@ -997,6 +1353,24 @@
 
     document.addEventListener('keydown', function(e){
       if (e.key === 'Escape' && !menu.hidden) { open(false); btn.focus(); }
+    });
+  })();
+
+  /* DESCRIPTIFS DES PÔLES — même motif « disclosure » que le menu
+     ci-dessus : un bouton, un panneau, l'état sur aria-expanded.
+     Un seul écouteur délégué sert les quatre pôles.            */
+  (function(){
+    document.addEventListener('click', function(e){
+      var btn = e.target.closest && e.target.closest('.more-btn');
+      if (!btn) return;
+
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!panel) return;
+
+      var open = panel.hidden;
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.firstChild.nodeValue = open ? '\n            Replier ' : '\n            En savoir plus ';
     });
   })();
 
