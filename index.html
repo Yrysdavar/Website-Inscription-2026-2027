@@ -66,6 +66,7 @@
     --amber:   #FBC33C;
     --chalk:   #ECECEA;
     --datacamp:#03EF62;   /* vert DataCamp — tuile partenaire uniquement */
+    --bmci:    #00965E;   /* vert BMCI / BNP Paribas — à ajuster avec leur charte */
     --datacamp-ink:#05192D; /* bleu nuit de la tuile : plus sombre que --ink, qui se
                                confond avec le fond de page en mode sombre */
 
@@ -817,7 +818,17 @@
     padding:1.75rem 1.4rem 2rem;
     border:2px solid var(--fg); background:rgba(var(--bg-rgb),.55);
   }
-  .partner-mark{ width:min(100%, 10rem); aspect-ratio:1; display:block; }
+  .partner-mark{ width:min(100%, 10rem); aspect-ratio:1; display:block; position:relative; }
+  /* Logo officiel posé PAR-DESSUS la tuile maison : tant que le fichier
+     n'est pas chargé (ou s'il manque), il reste invisible et la tuile
+     s'affiche seule, comme pour les photos des membres. Fond blanc fixe :
+     les logos sont dessinés pour du blanc, y compris en mode sombre. */
+  .partner-logo{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:contain; padding:14%; background:#fff;
+    box-shadow:inset 0 0 0 2px var(--fg); opacity:0;
+  }
+  .partner-logo.ok{ opacity:1; }
   .partner-mark svg{ width:100%; height:100%; display:block; }
   .partner .role{
     display:inline-block; font-family:var(--display); font-size:0.6875rem;
@@ -842,6 +853,10 @@
     .partner-mark{ width:100%; }
     .partner p{ margin:0 0 1.1rem; }
     .partner .tags{ justify-content:flex-start; }
+    /* Une plaque sur deux passe la tuile à droite : le rythme évite
+       deux blocs identiques empilés. Sur téléphone, tout reste empilé. */
+    .partner:nth-child(even){ grid-template-columns:1fr 14.5rem; }
+    .partner:nth-child(even) .partner-mark{ order:2; }
   }
 
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; } html{ scroll-behavior:auto; } }
@@ -970,6 +985,9 @@
     <li><a href="#partenaires">
       <span class="chip"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="var(--datacamp)"/><path d="M50 14 L93.2 88 H6.8 Z" fill="var(--datacamp-ink)"/><path d="M50 52 L66.9 88 H33.1 Z" fill="var(--datacamp)"/><rect y="86" width="100" height="14" fill="var(--datacamp-ink)"/></svg></span>
       DataCamp</a></li>
+    <li><a href="#partenaires">
+      <span class="chip"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="var(--bmci)"/><g fill="var(--chalk)"><path d="M50 12 L92 36 H8 Z"/><rect x="16" y="42" width="14" height="34"/><rect x="43" y="42" width="14" height="34"/><rect x="70" y="42" width="14" height="34"/><rect x="8" y="80" width="84" height="8"/></g></svg></span>
+      BMCI</a></li>
 
     <li class="all"><a href="#rejoindre">Candidater</a></li>
   </ul>
@@ -1375,17 +1393,44 @@
   <section class="lead-in" id="partenaires">
     <span class="kicker">// Partenaires</span>
     <h2>Nos partenaires</h2>
-    <p>Centrale Tech s’appuie sur des partenaires pour donner à ses membres des ressources de formation de niveau professionnel.</p>
+    <p>Centrale Tech s’appuie sur des partenaires pour accompagner ses membres, de la formation aux projets et aux événements du club.</p>
 
     <ul class="partners">
       <li class="partner">
-        <div class="partner-mark"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="var(--datacamp)"/><path d="M50 14 L93.2 88 H6.8 Z" fill="var(--datacamp-ink)"/><path d="M50 52 L66.9 88 H33.1 Z" fill="var(--datacamp)"/><rect y="86" width="100" height="14" fill="var(--datacamp-ink)"/></svg></div>
+        <div class="partner-mark">
+          <!-- LOGO DATACAMP : assets/images/datacamp.png (autres extensions essayées
+               automatiquement : jpg, jpeg, svg, webp). Absent = la tuile reste. -->
+          <img class="partner-logo" src="assets/images/datacamp.png" alt=""
+               onload="this.classList.add('ok')"
+               onerror="var d=this.dataset,e=(d.next===undefined?'jpg,jpeg,svg,webp':d.next).split(',').filter(Boolean),x=e.shift();d.next=e.join(',');x?this.src='assets/images/datacamp.'+x:this.remove()">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="var(--datacamp)"/><path d="M50 14 L93.2 88 H6.8 Z" fill="var(--datacamp-ink)"/><path d="M50 52 L66.9 88 H33.1 Z" fill="var(--datacamp)"/><rect y="86" width="100" height="14" fill="var(--datacamp-ink)"/></svg>
+        </div>
         <div class="partner-body">
           <span class="role">Partenaire formation</span>
           <h3>DataCamp</h3>
           <p>DataCamp est une plateforme d’apprentissage en ligne dédiée à la data, à l’IA et à la programmation. Ses cours interactifs, ses exercices directement dans le navigateur et ses parcours de compétences prolongent les bootcamps et les projets du pôle Data &amp; IA.</p>
           <ul class="tags"><li>Python</li><li>SQL</li><li>R</li><li>Machine Learning</li><li>Power BI</li></ul>
           <a class="cta" href="https://www.datacamp.com" target="_blank" rel="noopener">Découvrir DataCamp<span class="sr"> (s’ouvre dans un nouvel onglet)</span></a>
+        </div>
+      </li>
+      <!-- NOTE : texte rédigé par défaut, à valider avec le bureau
+           (nature exacte du partenariat : sponsoring, financement, autre). -->
+      <li class="partner">
+        <div class="partner-mark">
+          <!-- LOGO BMCI : assets/images/bmci.png. Si le fichier a une autre extension
+               (jpg, jpeg, svg, webp), la page l'essaie toute seule ; vous pouvez
+               alors simplifier en mettant le bon nom dans src et en retirant onerror. -->
+          <img class="partner-logo" src="assets/images/bmci.png" alt=""
+               onload="this.classList.add('ok')"
+               onerror="var d=this.dataset,e=(d.next===undefined?'jpg,jpeg,svg,webp':d.next).split(',').filter(Boolean),x=e.shift();d.next=e.join(',');x?this.src='assets/images/bmci.'+x:this.remove()">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="var(--bmci)"/><g fill="var(--chalk)"><path d="M50 12 L92 36 H8 Z"/><rect x="16" y="42" width="14" height="34"/><rect x="43" y="42" width="14" height="34"/><rect x="70" y="42" width="14" height="34"/><rect x="8" y="80" width="84" height="8"/></g></svg>
+        </div>
+        <div class="partner-body">
+          <span class="role">Partenaire</span>
+          <h3>BMCI</h3>
+          <p>BMCI est une banque marocaine, filiale du groupe BNP Paribas. Elle soutient Centrale Tech dans ses projets et ses événements.</p>
+          <ul class="tags"><li>Banque</li><li>Groupe BNP Paribas</li></ul>
+          <a class="cta" href="https://www.bmci.ma" target="_blank" rel="noopener">Découvrir BMCI<span class="sr"> (s’ouvre dans un nouvel onglet)</span></a>
         </div>
       </li>
     </ul>
