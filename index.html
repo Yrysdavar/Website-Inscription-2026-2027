@@ -48,6 +48,8 @@
 
   LOGO      Cherchez LOGO.
   CANDIDATURE  Cherchez LIEN-CANDIDATURE. Deux endroits.
+  PARTENAIRES  Cherchez PARTENAIRES. Une plaque par partenaire :
+  dupliquez un <li class="partner"> pour en ajouter un.
   À VALIDER Trois descriptions de pôle sont signalées NOTE.
   ══════════════════════════════════════════════════════════
 -->
@@ -63,6 +65,9 @@
     --emerald: #00A98D;
     --amber:   #FBC33C;
     --chalk:   #ECECEA;
+    --datacamp:#03EF62;   /* vert DataCamp — tuile partenaire uniquement */
+    --datacamp-ink:#05192D; /* bleu nuit de la tuile : plus sombre que --ink, qui se
+                               confond avec le fond de page en mode sombre */
 
     /* Rôles — c'est cette section qui bascule en mode sombre. */
     --bg:      var(--chalk);   /* fond de page              */
@@ -209,11 +214,11 @@
      sans casser une ligne, et un lien vaut mieux qu'une mention que
      le hero et le pied de page répètent déjà.
 
-     En dessous de 68rem la place manque : elle se retire, et c'est
+     En dessous de 72rem la place manque : elle se retire, et c'est
      le menu déroulant à droite qui reprend les mêmes entrées (voir
      .nav-only plus bas). La page n'est donc jamais sans navigation. */
   .nav{ display:none; }
-  @media (min-width:68rem){
+  @media (min-width:72rem){
     .nav{ display:flex; align-items:center; gap:1.15rem; margin-left:0.75rem; }
   }
   .nav a{
@@ -517,9 +522,9 @@
     border-top:2px solid rgba(var(--fg-rgb), .18);
     margin-top:0.35rem; padding-top:0.6rem;
   }
-  /* Au-dessus de 68rem la barre affiche déjà ces liens en clair :
+  /* Au-dessus de 72rem la barre affiche déjà ces liens en clair :
      les répéter dans le panneau ne ferait que l'allonger.        */
-  @media (min-width:68rem){ .jump-menu .nav-only{ display:none; } }
+  @media (min-width:72rem){ .jump-menu .nav-only{ display:none; } }
 
   @media (max-width:32rem){
     /* Moins de rembourrage : sinon la plaque vole au titre la largeur
@@ -795,6 +800,50 @@
   }
   .foot-bottom a:hover, .foot-bottom a:focus-visible{ color:var(--violet); }
 
+  /* ══ PARTENAIRES ═════════════════════════════════════════
+     Une plaque filetée par partenaire, dans la grammaire du reste
+     de la page : filet de 2px, aucun arrondi. La tuile porte la
+     couleur du partenaire — c'est le seul aplat vert vif de la
+     page, donc le seul endroit où l'œil s'arrête. Le texte reste
+     en --fg : ce vert n'a pas le contraste d'un texte.
+     La tuile utilise --datacamp et --datacamp-ink, jamais --fg ni
+     --bg : elle doit rester identique en mode clair et sombre. */
+  .partners{
+    list-style:none; margin:2.75rem auto 0; padding:0;
+    max-width:56rem; display:grid; gap:1.75rem;
+  }
+  .partner{
+    display:grid; gap:1.6rem; justify-items:center; text-align:center;
+    padding:1.75rem 1.4rem 2rem;
+    border:2px solid var(--fg); background:rgba(var(--bg-rgb),.55);
+  }
+  .partner-mark{ width:min(100%, 10rem); aspect-ratio:1; display:block; }
+  .partner-mark svg{ width:100%; height:100%; display:block; }
+  .partner .role{
+    display:inline-block; font-family:var(--display); font-size:0.6875rem;
+    font-weight:600; letter-spacing:0.14em; text-transform:uppercase;
+    border:1.5px solid currentColor; padding:0.2rem 0.65rem; margin:0 0 1rem;
+  }
+  /* Le nom est une marque, pas un titre de section : il garde sa
+     casse d'origine au lieu de passer en capitales comme les h3. */
+  .partner h3{
+    font-family:var(--display); font-weight:600; text-transform:none;
+    font-size:clamp(2.5rem, 7vw, 3.75rem); letter-spacing:-0.035em;
+    line-height:0.95; margin:0 0 1rem;
+  }
+  .partner p{ margin:0 auto 1.1rem; max-width:46ch; font-size:0.9375rem; line-height:1.6; }
+  .partner .tags{ justify-content:center; }
+  .partner .cta{ margin-top:1.6rem; }
+  @media (min-width:48rem){
+    .partner{
+      grid-template-columns:14.5rem 1fr; gap:2.75rem; padding:2rem;
+      align-items:center; justify-items:stretch; text-align:left;
+    }
+    .partner-mark{ width:100%; }
+    .partner p{ margin:0 0 1.1rem; }
+    .partner .tags{ justify-content:flex-start; }
+  }
+
   @media (prefers-reduced-motion:reduce){ *{ transition:none !important; } html{ scroll-behavior:auto; } }
 </style>
 <script>
@@ -822,13 +871,14 @@
 
   <!-- NAVIGATION — une entrée par section de la page, dans l'ordre du
        document : le souligné de section courante suit cette liste.
-       En dessous de 68rem elle disparaît et le menu prend le relais. -->
+       En dessous de 72rem elle disparaît et le menu prend le relais. -->
   <nav class="nav" aria-label="Sections de la page">
     <a href="#bureau">Bureau</a>
     <a href="#equipe">Équipe</a>
     <a href="#poles">Pôles</a>
     <a href="#pourquoi">Pourquoi</a>
     <a href="#rendez-vous">Rendez-vous</a>
+    <a href="#partenaires">Partenaires</a>
     <a href="#faq">FAQ</a>
     <a href="#rejoindre">Candidater</a>
   </nav>
@@ -915,6 +965,11 @@
     <li class="nav-only"><a href="#pourquoi">Pourquoi nous rejoindre</a></li>
     <li class="nav-only"><a href="#rendez-vous">Les grands rendez-vous</a></li>
     <li class="nav-only"><a href="#faq">Questions fréquentes</a></li>
+
+    <li class="group rule">Partenaires</li>
+    <li><a href="#partenaires">
+      <span class="chip"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="var(--datacamp)"/><path d="M50 14 L93.2 88 H6.8 Z" fill="var(--datacamp-ink)"/><path d="M50 52 L66.9 88 H33.1 Z" fill="var(--datacamp)"/><rect y="86" width="100" height="14" fill="var(--datacamp-ink)"/></svg></span>
+      DataCamp</a></li>
 
     <li class="all"><a href="#rejoindre">Candidater</a></li>
   </ul>
@@ -1309,6 +1364,33 @@
     </ul>
   </section>
 
+  <!-- PARTENAIRES — une plaque par partenaire. Pour en ajouter un,
+       dupliquez le <li class="partner"> ci-dessous.
+       LOGO OFFICIEL : le nom est composé en texte (Jost) et la tuile
+       est un motif maison. Pour afficher le vrai logo, déposez-le dans
+       assets/images/partners/ et remplacez le <h3> par
+         <h3><img src="assets/images/partners/datacamp.svg" alt="DataCamp" height="40"></h3>
+       NOTE : texte rédigé par défaut, à valider avec le bureau
+       (nature exacte du partenariat, avantages éventuels pour les membres). -->
+  <section class="lead-in" id="partenaires">
+    <span class="kicker">// Partenaires</span>
+    <h2>Nos partenaires</h2>
+    <p>Centrale Tech s’appuie sur des partenaires pour donner à ses membres des ressources de formation de niveau professionnel.</p>
+
+    <ul class="partners">
+      <li class="partner">
+        <div class="partner-mark"><svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="var(--datacamp)"/><path d="M50 14 L93.2 88 H6.8 Z" fill="var(--datacamp-ink)"/><path d="M50 52 L66.9 88 H33.1 Z" fill="var(--datacamp)"/><rect y="86" width="100" height="14" fill="var(--datacamp-ink)"/></svg></div>
+        <div class="partner-body">
+          <span class="role">Partenaire formation</span>
+          <h3>DataCamp</h3>
+          <p>DataCamp est une plateforme d’apprentissage en ligne dédiée à la data, à l’IA et à la programmation. Ses cours interactifs, ses exercices directement dans le navigateur et ses parcours de compétences prolongent les bootcamps et les projets du pôle Data &amp; IA.</p>
+          <ul class="tags"><li>Python</li><li>SQL</li><li>R</li><li>Machine Learning</li><li>Power BI</li></ul>
+          <a class="cta" href="https://www.datacamp.com" target="_blank" rel="noopener">Découvrir DataCamp<span class="sr"> (s’ouvre dans un nouvel onglet)</span></a>
+        </div>
+      </li>
+    </ul>
+  </section>
+
   <!-- QUESTIONS FRÉQUENTES — reprises de la brochure. Même motif
        « disclosure » que les descriptifs de pôle : un bouton, un
        panneau, l'état porté par aria-expanded. -->
@@ -1417,6 +1499,7 @@
           <li><a href="#equipe">Équipe dirigeante</a></li>
           <li><a href="#pourquoi">Pourquoi nous&nbsp;?</a></li>
           <li><a href="#rendez-vous">Feuille de route</a></li>
+          <li><a href="#partenaires">Partenaires</a></li>
           <li><a href="#rejoindre">Candidature</a></li>
         </ul>
       </div>
